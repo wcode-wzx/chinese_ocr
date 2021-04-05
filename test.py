@@ -1,12 +1,12 @@
-import  torch
+import  torch, os
 from torch.autograd import Variable
 import cv2 as cv
 import numpy as np 
 from PIL import Image
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader,Dataset
 from torchvision import datasets
 from torchvision import transforms #数据的原始处理
-from chinese_ocr import CnnModel
+from train import CnnModel
 import time
 '''
 引用pt格式保存模型和权重，仅需加载from mnist import Net即可
@@ -17,8 +17,27 @@ transform = transforms.Compose([
     transforms.Grayscale(), # 将图片转换为Tensor,归一化至[0,1]
     # transforms.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]) # 标准化至[-1,1]
 ])
-test_dataset = datasets.ImageFolder(root='test',transform=transform) 
-test_loader = DataLoader(test_dataset, batch_size=10, shuffle=True, drop_last=False, num_workers=4) 
+
+# class Mydataset(torch.utils.Data.Dataset):
+#     def __init__(self,data_dir='train',transform=transform):
+#         super().__init__()
+#         self.data_dir=data_dir
+#         self.transform=transform
+
+#     def __len__(self):
+#         return len(self.df)
+
+#     def __getiem__(self,idex):
+#         img_name,label=self.df[idex]
+#         img_path=os.path.join(self.data_dir,img_name)
+#         image=cv.imread(img_path)
+#         if self.transform is not None:
+#             image=self.transform(image)
+#         return image,label        
+
+# train = Mydataset()
+test_dataset = datasets.ImageFolder(root='test1',transform=transform) 
+test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
 
 model = CnnModel()
 
@@ -38,6 +57,7 @@ def test():
             #outputs = model(inputs)
             #我们取概率最大的那个数作为输出
             _, predicted = torch.max(outputs.data, dim=1)
+            print(predicted)
             total += target.size(0)
             #计算正确率
             correct += (predicted == target).sum().item()
@@ -79,5 +99,5 @@ if __name__=='__main__':
         '得', '性', '手', '排', '控', '无', '是', '更', '有', '机', '来', '档', '比', '油', '泥', '灯', \
         '电', '的', '皮', '盘', '真', '着', '短', '矮', '硬', '空', '级', '耗', '自', '路', '身', '软', \
         '过', '近', '远', '里', '量', '长', '门', '问', '雨', '音', '高']
-    print('预测为:',p_in('images/4.jpg'))
+    #print('预测为:',p_in('images/4.jpg'))
     

@@ -124,13 +124,7 @@ if __name__=='__main__':
         test()
     torch.save(model, 'ocr.pt') 
     #test()
-
-    # train_mean, train_std = get_mean_std(train_dataset)
-
-    # #test_mean, test_std = get_mean_std(test_dataset)
-
-    # print(train_mean, train_std)
-    # #print(test_mean,test_std)
+    
     for iii in range(len(yyy)):
         xxx.append(iii)
     plt.plot(xxx, yyy)
