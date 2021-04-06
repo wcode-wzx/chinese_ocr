@@ -11,15 +11,17 @@ import time
 '''
 引用pt格式保存模型和权重，仅需加载from mnist import Net即可
 '''
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Resize((28,28)),
-    transforms.Grayscale(), # 将图片转换为Tensor,归一化至[0,1]
-    # transforms.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]) # 标准化至[-1,1]
-])
+def ds(root):
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Resize((28,28)),
+        transforms.Grayscale(), # 将图片转换为Tensor,归一化至[0,1]
+        # transforms.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]) # 标准化至[-1,1]
+    ])
 
-test_dataset = datasets.ImageFolder(root='upload',transform=transform) 
-test_loader = DataLoader(test_dataset, batch_size=9, shuffle=False, drop_last=False, num_workers=4) 
+    test_dataset = datasets.ImageFolder(root='upload',transform=transform) 
+    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
+    return test_loader
 
 class CnnModel(torch.nn.Module):
     def __init__(self):
@@ -54,7 +56,7 @@ model = CnnModel()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-def test():
+def test(test_loader):
     correct = 0
     total = 0
     re = []
@@ -63,7 +65,7 @@ def test():
     for data in test_loader:
         inputs, target = data
         inputs, target = inputs.to(device), target.to(device)
-        new_m = torch.load('weight/ocr.pt')
+        new_m = torch.load('weight/best.pt')
         outputs = new_m(inputs)
         #outputs = model(inputs)
         #我们取概率最大的那个数作为输出
@@ -77,12 +79,16 @@ def test():
     return re
 
 def transf(re):
-    name = ['一', '七', '保', '上', '下', '不', '中', '九', '了', '二', '五', '低', '三', '光', '八', \
-        '公', '六', '养', '内', '冷', '副', '加', '动', '十', '只', '右', '启', '呢', '味', '和', '响', \
-        '四', '地', '坏', '坐', '外', '多', '大', '好', '孩', '实', '小', '少', '左', '开', '当', '很', \
-        '得', '性', '手', '排', '控', '无', '是', '更', '有', '机', '来', '档', '比', '油', '泥', '灯', \
-        '电', '的', '皮', '盘', '真', '着', '短', '矮', '硬', '空', '级', '耗', '自', '路', '身', '软', \
-        '过', '近', '远', '里', '量', '长', '门', '问', '雨', '音', '高']
+    name = ['一', '七', '五', '低', '保', '光', '八', '公', '六', '养',\
+            '内', '冷', '三', '副', '加', '动', '十', '只', '右', '启',\
+            '呢', '味', '和', '上', '响', '四', '地', '坏', '坐', '外',\
+            '多', '大', '好', '孩', '下', '实', '小', '少', '左', '开',\
+            '当', '很', '得', '性', '手', '不', '排', '控', '无', '是',\
+            '更', '有', '机', '来', '档', '比', '中', '油', '泥', '灯',\
+            '电', '的', '皮', '盘', '真', '着', '短', '九', '矮', '硬',\
+            '空', '级', '耗', '自', '路', '身', '软', '过', '了', '近',\
+            '远', '里', '量', '长', '门', '问', '雨', '音', '高', '二']
+       
     ree = []
     if len(ree)!=0:
         ree = []
@@ -91,13 +97,4 @@ def transf(re):
         ree.append(name[j])
     #print(re,ree)
     return ree
-    
-
-# if __name__=='__main__':
-    
-#     time_start=time.time()
-#     #test()
-#     transf(test())
-#     time_end=time.time()
-#     print('time cost',time_end-time_start,'s')
     
