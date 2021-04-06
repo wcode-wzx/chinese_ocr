@@ -72,7 +72,7 @@ def test(test_loader):
         _, predicted = torch.max(outputs.data, dim=1)
         #print(predicted)
         nn = predicted.tolist()
-        #print("nn:", nn)
+        print("nn:", nn)
         for i in nn:
             re.append(i)
     #print("re", re)
@@ -88,7 +88,6 @@ def transf(re):
             '电', '的', '皮', '盘', '真', '着', '短', '九', '矮', '硬',\
             '空', '级', '耗', '自', '路', '身', '软', '过', '了', '近',\
             '远', '里', '量', '长', '门', '问', '雨', '音', '高', '二']
-       
     ree = []
     if len(ree)!=0:
         ree = []
