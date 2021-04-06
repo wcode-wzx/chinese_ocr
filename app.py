@@ -1,30 +1,40 @@
-from flask import Flask, jsonify, json, render_template,request,redirect,url_for
+from flask import Flask, jsonify, json ,request
 from server import *
-from werkzeug.utils import secure_filename
 import os ,shutil
 app = Flask(__name__)
  
 @app.route('/re')
-def hello_world():
-    
+def hello_world():    
+    def file_name(file_dir):  
+        L=[]  
+        for root, dirs, files in os.walk(file_dir): 
+            for file in files: 
+                #if os.path.splitext(file)[1] == '.jpg': 
+                L.append(file.split('.')[0]) 
+        return L
+    #返回识别结果
     yy = transf(test(ds('upload')))
-    path = "E:\\vsProject\\YOLOv5\\chinese_ocr\\upload\\1"
+    
+    path = "upload\\1"
+    #图片名和识别结果合成字典
+    d = dict(zip(file_name(path), yy))
+    #print(d)
+    #(file_name(path),yy)
+    #情况上传目录
     if os.path.exists(path):
         shutil.rmtree(path)
         os.mkdir(path)
     else:
         os.mkdir(path)
-    #d = dict(zip(xx, yy))
-    #print(d)
-    return json.dumps(yy,ensure_ascii=False)
+    
+    return json.dumps(d,ensure_ascii=False)
     
 @app.route('/up', methods=['POST', 'GET'])
 def up():
     if request.method == 'POST':
         basepath = os.path.dirname(__file__)
         fs = request.files.getlist('file') # 一次性多个文件
-        #fs = request.files['file']
-        print(fs)
+        #print(fs)
         for f in fs:
             new_fname = os.path.join(basepath, 'upload\\1\\',f.filename)
             f.save(new_fname)

@@ -53,8 +53,8 @@ class CnnModel(torch.nn.Module):
 model = CnnModel()
 
 #把计算迁移到GPU
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-model.to(device)
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# model.to(device)
 
 def test(test_loader):
     correct = 0
@@ -64,15 +64,15 @@ def test(test_loader):
         re = []
     for data in test_loader:
         inputs, target = data
-        inputs, target = inputs.to(device), target.to(device)
-        new_m = torch.load('weight/best.pt')
+        # inputs, target = inputs.to(device), target.to(device)
+        new_m = torch.load('weight/best.pt', map_location='cpu')
         outputs = new_m(inputs)
         #outputs = model(inputs)
         #我们取概率最大的那个数作为输出
         _, predicted = torch.max(outputs.data, dim=1)
         #print(predicted)
         nn = predicted.tolist()
-        print("nn:", nn)
+        #print("nn:", nn)
         for i in nn:
             re.append(i)
     #print("re", re)
