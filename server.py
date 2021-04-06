@@ -23,6 +23,14 @@ def ds(root):
     test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
     return test_loader
 
+def file_name(file_dir):  
+        L=[]  
+        for root, dirs, files in os.walk(file_dir): 
+            for file in files: 
+                #if os.path.splitext(file)[1] == '.jpg': 
+                L.append(file.split('.')[0]) 
+        return L
+
 class CnnModel(torch.nn.Module):
     def __init__(self):
         super(CnnModel, self).__init__()

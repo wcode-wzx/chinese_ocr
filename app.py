@@ -5,13 +5,7 @@ app = Flask(__name__)
  
 @app.route('/re')
 def hello_world():    
-    def file_name(file_dir):  
-        L=[]  
-        for root, dirs, files in os.walk(file_dir): 
-            for file in files: 
-                #if os.path.splitext(file)[1] == '.jpg': 
-                L.append(file.split('.')[0]) 
-        return L
+    
     #返回识别结果
     yy = transf(test(ds('upload')))
     
