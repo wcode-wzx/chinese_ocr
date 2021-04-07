@@ -1,8 +1,8 @@
 import os, requests
  
-url = 'http://127.0.0.1:5000/'
+url = 'http://127.0.0.1:5050/'
 
-filePath = 'C:\\Users\\thyme\\Desktop\\1'
+filePath = 'C:/Users/thyme/Desktop/1'
 
 for dirpath, dirnames, filenames in os.walk(filePath):
     path = [os.path.join(dirpath, names) for names in filenames]
@@ -15,6 +15,6 @@ for dirpath, dirnames, filenames in os.walk(filePath):
         json = response.json()
         print(json)
 
-re = requests.get(url+'re')
-json = re.json()
-print(json)
+# re = requests.get(url+'re')
+# json = re.json()
+# print(json)

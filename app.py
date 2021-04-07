@@ -2,14 +2,19 @@ from flask import Flask, jsonify, json ,request
 from server import *
 import os ,shutil
 app = Flask(__name__)
- 
+
+@app.route('/')
+def re():
+    re = "url/re 返回结果 "
+    return re
+    
 @app.route('/re')
 def hello_world():    
     
     #返回识别结果
     yy = transf(test(ds('upload')))
     
-    path = "upload\\1"
+    path = "upload/1"
     #图片名和识别结果合成字典
     d = dict(zip(file_name(path), yy))
     #print(d)
@@ -36,5 +41,5 @@ def up():
     return jsonify(response)
 
 if __name__ == '__main__':
-   app.run(debug = True)
+   app.run(host='0.0.0.0',port=5050,debug = True)
    app.config['JSON_AS_ASCII'] = False
