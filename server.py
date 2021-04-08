@@ -19,7 +19,7 @@ def ds(root):
         # transforms.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]) # 标准化至[-1,1]
     ])
 
-    test_dataset = datasets.ImageFolder(root='upload',transform=transform) 
+    test_dataset = datasets.ImageFolder(root=root,transform=transform) 
     test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
     return test_loader
 

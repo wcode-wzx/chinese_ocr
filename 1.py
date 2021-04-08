@@ -1,16 +1,29 @@
-from torchvision import transforms #数据的原始处理
-from torchvision import datasets
-from torch.utils.data import DataLoader,Dataset
+import os, requests
+ 
+url = 'http://127.0.0.1:5050/up'
 
+filePath = 'C:/Users/thyme/Desktop/1'
 
-transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Resize((28,28)),
-        transforms.Grayscale(), # 将图片转换为Tensor,归一化至[0,1]
-        # transforms.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]) # 标准化至[-1,1]
-    ])
+# for dirpath, dirnames, filenames in os.walk(filePath):
+#     path = [os.path.join(dirpath, names) for names in filenames]
+#     for xx in path:
+import base64
+for i in range(10,20):
+    with open("C:/Users/thyme/Desktop/1/00.jpg", 'rb') as f:
+        base64_data = base64.b64encode(f.read())
+        s = base64_data.decode()
+        #print(xx)
+        #files = {'file': open(str(xx), 'rb'),}           
+        a = {"img_id":str(i),"img_bytes":{"dsf":s}}
+        #消息头指定
+        headers = {'Content-Type': 'application/json;charset=UTF-8'}
+        #发送post请求 json参数直接为一个字典数据。
+        res = requests.request("post",url,json=a,headers=headers)
+        print(res.status_code)
+        print(res.text)
+    # json = response.json()
+    # print(json)
 
-test_dataset = datasets.ImageFolder(root='upload',transform=transform) 
-
-
-print(test_dataset.imgs,type(test_dataset))
+# re = requests.get(url+'re')
+# json = re.json()
+# print(json)

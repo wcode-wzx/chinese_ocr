@@ -19,19 +19,24 @@ def up():
         img_list = data['img_bytes']
 
         path = "upload/"+img_id
+        path1 = "upload/"+img_id+'/0'
         if os.path.exists(path):
             shutil.rmtree(path)
             os.mkdir(path)
         else:
             os.mkdir(path)
+        if os.path.exists(path1):
+            shutil.rmtree(path1)
+            os.mkdir(path1)
+        else:
+            os.mkdir(path1)
 
         for name,value in img_list.items():
-            with open(r'upload/'+img_id+'/'+name+'.jpg','wb')as f:
+            with open(r'upload/'+img_id+'/'+'0/'+name+'.jpg','wb')as f:
                 f.write(base64.b64decode(value))
         
-        yy = transf(test(ds('upload')))
+        yy = transf(test(ds(path)))
         
-        path = "upload/"+img_id
         #图片名和识别结果合成字典
         d = dict(zip(file_name(path), yy))
         #删除文件
