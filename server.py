@@ -20,7 +20,7 @@ def ds(root):
     ])
 
     test_dataset = datasets.ImageFolder(root='upload',transform=transform) 
-    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=6) 
+    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
     return test_loader
 
 def file_name(file_dir):  
@@ -99,7 +99,7 @@ def transf(re):
     ree = []
     if len(ree)!=0:
         ree = []
-    for j in range(8, len(re)):
+    for j in range(0, len(re)):
         j = re[int(j)]
         ree.append(name[j])
     #print(re,ree)
