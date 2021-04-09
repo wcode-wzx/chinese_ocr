@@ -1,6 +1,7 @@
 import os, requests
  
 url = 'http://192.168.1.14:5050/up'
+#url = 'http://127.0.0.1:5000/up'
 
 filePath = 'C:/Users/thyme/Desktop/1'
 

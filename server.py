@@ -20,7 +20,7 @@ def ds(root):
     ])
 
     test_dataset = datasets.ImageFolder(root=root,transform=transform) 
-    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
+    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=1) 
     return test_loader
 
 def file_name(file_dir):  
