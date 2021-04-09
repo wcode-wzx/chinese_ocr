@@ -1,13 +1,14 @@
+# -*- coding:UTF-8 -*-
+import flask
 from flask import Flask, jsonify, json ,request
 from server import *
-import os ,shutil, base64
+import os ,shutil, base64, re
 
 app = Flask(__name__)
 
 @app.route('/')
-def re():
-    re = "url/re 返回结果 "
-    return re
+def ree():
+    pass
 
 @app.route('/up', methods=['POST', 'GET'])
 def up():
@@ -37,14 +38,17 @@ def up():
         
         yy = transf(test(ds(path)))
         
+        path2 = "upload/"+img_id+"/0"
         #图片名和识别结果合成字典
-        d = dict(zip(file_name(path), yy))
+        xx = file_name(path2)
+        
+        ress = res(xx, yy)
         #删除文件
         shutil.rmtree(path)
             
-        return json.dumps(d,ensure_ascii=False)
+        return json.dumps(ress,ensure_ascii=False)
 
 if __name__ == '__main__':
    #app.run(processes=True)
    app.run(host='0.0.0.0', port=5050,debug=True,threaded = False,processes=1)
-#    app.config['JSON_AS_ASCII'] = False
+   app.config['JSON_AS_ASCII'] = False

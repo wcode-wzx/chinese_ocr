@@ -1,13 +1,11 @@
 import  torch, os
 from torch.autograd import Variable
-import cv2 as cv
 import numpy as np 
 from PIL import Image
 from torch.utils.data import DataLoader,Dataset
 from torchvision import datasets
 from torchvision import transforms #数据的原始处理
 import torch.nn.functional as F
-import time
 '''
 引用pt格式保存模型和权重，仅需加载from mnist import Net即可
 '''
@@ -20,7 +18,7 @@ def ds(root):
     ])
 
     test_dataset = datasets.ImageFolder(root=root,transform=transform) 
-    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=4) 
+    test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False, drop_last=False, num_workers=2) 
     return test_loader
 
 def file_name(file_dir):  
@@ -104,4 +102,16 @@ def transf(re):
         ree.append(name[j])
     #print(re,ree)
     return ree
+
+def res(xx, yy):
+    x1 = xx[0][0:3] 
+    list = []
+    list2 = []
+    for i in range(0,len(xx)):
+        list.append(int(xx[i][3:7],16))
+    list.sort()
+    for j in list:
+        list2.append(x1+hex(j).upper()[2:6])
+    ress = dict(zip(list2, yy))
+    return ress
     
